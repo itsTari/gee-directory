@@ -1,4 +1,4 @@
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { startupTypeCard }  from "@/components/StartupCard";
 import SearchForm from "../../components/SearchForm";
 import { client } from "@/sanity/lib/client";
 import { STARTUPS_QUERY } from "@/sanity/lib/queries";
@@ -32,7 +32,7 @@ export default  async function Home({searchParams}:{searchParams: Promise<{query
           <p className="font-semibold text-[30px] text-black">{query ? `Search Results For "${query}"` : 'All Startups'}</p>
         <ul className="mt-7 grid md:grid-cols-3 sm:grid-cols-2 gap-5">
             {posts.length > 0 ? (
-              posts.map((post: startupCardTypes, id: number)=>(
+              posts.map((post:  startupTypeCard , id: number)=>(
               <StartupCard key={post?._id} post={post}/>
             ))):(<p className="text-black-100 text-sm font-normal">No Startups Found</p>)
             }
