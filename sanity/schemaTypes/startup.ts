@@ -1,4 +1,3 @@
-import { title } from "process";
 import { defineField, defineType } from "sanity";
 
 export  const startup = defineType({
