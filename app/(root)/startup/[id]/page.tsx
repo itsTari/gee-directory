@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
 import MarkdownIt from 'markdown-it';
 import { Skeleton } from '@/components/ui/skeleton'
+import View from '@/components/View'
 
 const md = new MarkdownIt()
 export const experimental_ppr = true
@@ -46,7 +47,7 @@ const page = async({params}: {params: Promise<{id: string}>}) => {
             {/* todo: recommended section */}
 
             <Suspense fallback={<Skeleton className='bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3'/>}>
-                
+                <View id={id}/>
             </Suspense>
        </section>
     </>
