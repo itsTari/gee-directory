@@ -1,15 +1,50 @@
 'use client'
-import { useState } from 'react'
+import { useState, useActionState } from 'react'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import MDEditor from '@uiw/react-md-editor'
 import { Button } from './ui/button'
 import { Send } from 'lucide-react'
+import { formSchema } from '@/lib/validation'
+import {z} from 'zod'
+
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string,string>>({})
     const [pitch, setPitch] = useState("");
-    const isPending = false
+
+    const handleFormSubmit = async (prevState: any, formData:FormData )=> {
+          try {
+               const formValues = {
+                    title: formData.get("title") as string,
+                    description:formData.get("description") as string,
+                    category: formData.get("category") as string,
+                    link: formData.get("link") as string ,
+                    pitch,
+               }
+               // now that we have the form values, we want to validate them
+               await formSchema.parseAsync(formValues)
+               console.log(formValues)
+                setErrors({})
+               // const result = await createIdea(prevState, formData, pitch)
+               // console.log(result)
+               return { error: '', status: 'SUCCESS' }
+          } catch (error) {
+               if(error instanceof z.ZodError){
+                    const fieldErrors: Record<string, string> = {}
+                    error.errors.forEach((err) => {
+                         if (err.path) {
+                              fieldErrors[err.path[0]] = err.message
+                         }
+                    })
+                    setErrors(fieldErrors)
+                    return {...prevState, error: 'Validation failed', status: 'ERROR' }
+               }
+                return {...prevState, error: 'Something went wrong', status: 'ERROR' }
+          }
+    }
+    const [state, formAction, isPending] = useActionState(handleFormSubmit, {error:'', status:'INITIAL' })
+    
 
   return (
     <form action={()=> {}} className='max-w-2xl mx-auto bg-white my-10 space-y-8 px-6' >
