@@ -14,3 +14,6 @@ export function formatDate(date:string){
     }
   )
 }
+export function parseServerActionRes<T>(response: T){
+  return JSON.parse(JSON.stringify(response))
+}

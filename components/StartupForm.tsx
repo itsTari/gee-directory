@@ -7,11 +7,17 @@ import { Button } from './ui/button'
 import { Send } from 'lucide-react'
 import { formSchema } from '@/lib/validation'
 import {z} from 'zod'
+import { toast } from "sonner"
+import { useRouter } from 'next/navigation'
+import { createPitch } from '@/lib/actions'
+
 
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string,string>>({})
     const [pitch, setPitch] = useState("");
+    const router = useRouter()
+    
 
     const handleFormSubmit = async (prevState: any, formData:FormData )=> {
           try {
@@ -24,11 +30,15 @@ const StartupForm = () => {
                }
                // now that we have the form values, we want to validate them
                await formSchema.parseAsync(formValues)
-               console.log(formValues)
-                setErrors({})
-               // const result = await createIdea(prevState, formData, pitch)
-               // console.log(result)
-               return { error: '', status: 'SUCCESS' }
+               // console.log(formValues)
+               //  setErrors({})
+               const result = await createPitch(prevState, formData, pitch)
+               if(result.status == 'SUCCESS'){
+                    toast("your startup pitch has been created successfully")
+                    router.push(`/startup/${result._id}`)
+                    // console.log('result.id:', result.id) 
+               }
+               return result
           } catch (error) {
                if(error instanceof z.ZodError){
                     const fieldErrors: Record<string, string> = {}
@@ -38,8 +48,10 @@ const StartupForm = () => {
                          }
                     })
                     setErrors(fieldErrors)
+                    toast("please check your inputs and try again")
                     return {...prevState, error: 'Validation failed', status: 'ERROR' }
                }
+                toast("An unexpected error has occured, please try again")
                 return {...prevState, error: 'Something went wrong', status: 'ERROR' }
           }
     }
@@ -47,7 +59,7 @@ const StartupForm = () => {
     
 
   return (
-    <form action={()=> {}} className='max-w-2xl mx-auto bg-white my-10 space-y-8 px-6' >
+    <form action={formAction} className='max-w-2xl mx-auto bg-white my-10 space-y-8 px-6' >
        <div>
             <label htmlFor='title' className='startup-form_label'>Title</label>
             <Input id='title' name='title' className='startup-form_input placeholder:text-black-300 !important' required placeholder='Startup Title'/>

@@ -36,7 +36,7 @@ const StartupCard = ({post}:{post: startupTypeCard}) => {
         </div>
         <Link href={`/startup/${_id}`}>
             <p className='font-normal text-xl line-clamp-2 my-3 text-black-100 break-all'>{description}</p>
-            <img src={image} alt={category} className='startup-card_img'/>
+            <img src={image} alt='thumbnail' className='startup-card_img'/>
         </Link>
         <div className='flex-between gap-3 mt-5'>
           <Link href={`/?query=${category?.toLowerCase()}`}>
