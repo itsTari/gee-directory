@@ -1,8 +1,12 @@
 import { auth } from '@/auth'
+import UserStartups, { StartupCardSkeleton } from '@/components/UserStartups'
 import { client } from '@/sanity/lib/client'
 import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
+
+
+export const experimental_ppr = true
 
 const page = async ({params}: {params: Promise<{id:string}>}) => {
     const id = (await params).id
@@ -27,7 +31,10 @@ const page = async ({params}: {params: Promise<{id:string}>}) => {
                     {session?.id == id ? 'Your' : 'All'} Startups
                 </p>
                 <ul className='grid sm:grid-cols-2 gap-5'>
-                    user startups
+                    <Suspense fallback={<StartupCardSkeleton />}>
+                        {/* Dynamic component */}
+                        <UserStartups id={id}/>
+                    </Suspense>
                 </ul>
             </div>
         </section>
