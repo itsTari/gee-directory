@@ -46,7 +46,6 @@ export default  async function Home({searchParams}:{searchParams: Promise<{query
       {editorPosts?.length > 0 && (
         <div className="max-w-4xl mx-auto">
           <p className="text-30-semibold">Editors picks</p>
-          <p>What editors find interesting the most, their most visited startups</p>
           <ul className="mt-10 mx-2 grid sm:grid-cols-2 gap-5">
             {editorPosts.map((post : startupTypeCard, id:number)=>
               <StartupCard post={post} key={id}/>

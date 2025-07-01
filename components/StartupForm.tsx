@@ -18,7 +18,6 @@ const StartupForm = () => {
     const [pitch, setPitch] = useState("");
     const router = useRouter()
     
-
     const handleFormSubmit = async (prevState: any, formData:FormData )=> {
           try {
                const formValues = {
@@ -34,7 +33,7 @@ const StartupForm = () => {
                //  setErrors({})
                const result = await createPitch(prevState, formData, pitch)
                if(result.status == 'SUCCESS'){
-                    toast("your startup pitch has been created successfully")
+                    toast.success("your startup pitch has been created successfully", { className: 'bg-green-500 text-white border-green-600'})
                     router.push(`/startup/${result._id}`)
                     // console.log('result.id:', result.id) 
                }
@@ -48,7 +47,7 @@ const StartupForm = () => {
                          }
                     })
                     setErrors(fieldErrors)
-                    toast("please check your inputs and try again")
+                    toast.error("please check your inputs and try again", {className:'bg-red-600 text-white'})
                     return {...prevState, error: 'Validation failed', status: 'ERROR' }
                }
                 toast("An unexpected error has occured, please try again")
