@@ -42,6 +42,14 @@
     "tailwindcss": "^4.1.10",
     "tailwindcss-animate": "^1.0.7"
   },
+  "overrides": {
+    "@sentry/nextjs": {
+      "next": "$next"
+    }
+  },
+  "resolutions": {
+    "@sentry/nextjs/next": "^15.4.0-canary.94"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/markdown-it": "^14.1.2",
@@ -56,3 +64,4 @@
     "typescript": "^5"
   }
 }
+
